@@ -1,0 +1,5 @@
+# Project exclude paths
+/.gradle/
+/kotlinbridge-core/build/
+/sample-android/build/
+/sample-android/build/intermediates/javac/debug/classes/

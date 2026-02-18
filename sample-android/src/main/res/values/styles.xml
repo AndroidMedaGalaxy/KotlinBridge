@@ -1,0 +1,5 @@
+<resources>
+    <style name="Theme.Material3.DayNight.NoActionBar" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- AppCompat theme for MainActivity -->
+    </style>
+</resources>
