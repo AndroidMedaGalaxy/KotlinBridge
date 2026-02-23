@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Case conversions
         log("toSlug(\"Hello World!!!\")", StringExtensions.toSlug("Hello World!!!"));
-        log("toCamelCase(\"hello_world\", null)", StringExtensions.toCamelCase("hello_world", null));
+        log("toCamelCase(\"hello_world\", \"[_\\\\s-]+\")", StringExtensions.toCamelCase("hello_world", "[_\\s-]+"));
         log("toSnakeCase(\"helloWorld\")", StringExtensions.toSnakeCase("helloWorld"));
         log("toKebabCase(\"hello_world\")", StringExtensions.toKebabCase("hello_world"));
         log("toTitleCase(\"hello world\", Locale.US)", StringExtensions.toTitleCase("hello world", Locale.US));
