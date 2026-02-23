@@ -47,11 +47,28 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Run ktlint
-        uses: nbadal/ktlint-action@v1
+      - name: Download ktlint
+        run: |
+          KTLINT_VERSION=1.0.1
+          curl -sSLO https://github.com/pinterest/ktlint/releases/download/$KTLINT_VERSION/ktlint
+          chmod +x ktlint
+          sudo mv ktlint /usr/local/bin/
+
+      - name: Run ktlint check
+        run: |
+          ktlint --reporter=plain \
+                 --reporter=checkstyle,output=ktlint-checkstyle.xml \
+                 kotlinbridge-core/src/**/*.kt
+        continue-on-error: true
+
+      - name: Upload ktlint report
+        uses: actions/upload-artifact@v4
+        if: always()
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: checkstyle
-          patterns: |
-            kotlinbridge-core/src/**/*.kt
-          fail_on_error: false
+          name: ktlint-report
+          path: ktlint-checkstyle.xml
+
+      - name: Run ktlint format (for local use)
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          ktlint -F kotlinbridge-core/src/**/*.kt || true
