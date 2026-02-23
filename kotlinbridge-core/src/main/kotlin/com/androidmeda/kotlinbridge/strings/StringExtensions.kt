@@ -270,7 +270,7 @@ fun toSlug(s: String?): String? {
         .replace("-+", "-")
 }
 
-fun toCamelCase(s: String?, separator: Regex = "[_\\s-]+".toRegex()): String? {
+fun toCamelCase(s: String, separator: String = "[_\\s-]+".toRegex().toString()): String? {
     if (s.isNullOrEmpty()) return s
     return s.split(separator)
         .filter { it.isNotEmpty() }
