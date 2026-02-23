@@ -35,24 +35,6 @@ Add the dependency:
 </dependency>
 ```
 
-### Gradle
-
-```kotlin
-repositories {
-    maven {
-        url = uri("https://maven.pkg.github.com/AndroidmedaGalaxy/KotlinBridge")
-        credentials {
-            username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
-            password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
-        }
-    }
-}
-
-dependencies {
-    implementation("com.androidmeda.kotlinbridge:kotlinbridge-core:0.1.0")
-}
-```
-
 ## Usage
 
 ### Null Safety
