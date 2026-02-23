@@ -1,0 +1,57 @@
+name: Code Quality
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+  workflow_dispatch:
+
+jobs:
+  detekt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Download Detekt CLI
+        run: |
+          DETEKT_VERSION=1.23.5
+          curl -sSLO https://github.com/detekt/detekt/releases/download/v$DETEKT_VERSION/detekt-cli-$DETEKT_VERSION-all.jar
+          mv detekt-cli-$DETEKT_VERSION-all.jar detekt-cli.jar
+
+      - name: Run Detekt
+        run: |
+          java -jar detekt-cli.jar \
+            --config config/detekt/detekt.yml \
+            --input kotlinbridge-core/src/main/kotlin \
+            --report xml:kotlinbridge-core/build/reports/detekt/detekt.xml \
+            --report html:kotlinbridge-core/build/reports/detekt/detekt.html \
+            --excludes "**/test/**,**/build/**"
+        continue-on-error: true
+
+      - name: Upload detekt report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: detekt-report
+          path: kotlinbridge-core/build/reports/detekt/
+
+  ktlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run ktlint
+        uses: nbadal/ktlint-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: checkstyle
+          patterns: |
+            kotlinbridge-core/src/**/*.kt
+          fail_on_error: false
