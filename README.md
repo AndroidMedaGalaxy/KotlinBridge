@@ -105,16 +105,6 @@ ktlint kotlinbridge-core/src/**/*.kt
 ktlint -F kotlinbridge-core/src/**/*.kt
 ```
 
-### Publishing
-
-Publish to GitHub Packages:
-
-```bash
-./gradlew publish
-```
-
-Requires `GITHUB_ACTOR` and `GITHUB_TOKEN` environment variables, or `gpr.user`/`gpr.key` Gradle properties.
-
 ## Notes
 
 Each extension category uses its own `@file:JvmName` annotation to provide clean static import targets:
